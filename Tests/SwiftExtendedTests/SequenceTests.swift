@@ -1,5 +1,5 @@
 import XCTest
-@testable import SwiftPlus
+@testable import SwiftExtended
 
 final class SequenceTests: XCTestCase {
 
