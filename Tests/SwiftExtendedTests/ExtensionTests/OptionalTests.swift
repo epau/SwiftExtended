@@ -7,11 +7,12 @@ final class OptionalTests: XCTestCase {
 
     func testNilOrForNonNil() {
         let a: String? = "Hello"
-        let expectedResult = "Hello World"
+        let expected = "Hello World"
 
         let result = a.nilOr { $0 + " World" }
 
-        XCTAssertEqual(result, expectedResult, "nilOr should perform the passed in closure when the optional is not nil")
+        XCTAssertEqual(result, expected,
+                       "nilOr() didn't return the result of the passed in closure: \(result!)")
     }
     
     func testNilOrForNil() {
@@ -19,7 +20,8 @@ final class OptionalTests: XCTestCase {
 
         let result = a.nilOr { $0 + " World" }
 
-        XCTAssertNil(result, "nilOr should return nil when the optional is nil")
+        XCTAssertNil(result,
+                     "nilOr() didn't return nil: \(result!)")
     }
 
     // MARK: - All Tests
@@ -29,4 +31,3 @@ final class OptionalTests: XCTestCase {
         ("testNilOrForNil", testNilOrForNil)
     ]
 }
-

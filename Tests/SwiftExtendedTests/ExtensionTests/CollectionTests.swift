@@ -11,7 +11,8 @@ final class CollectionTests: XCTestCase {
 
         let result = collection[safe: index]
 
-        XCTAssertNotNil(result, "safe subscripting should return a non-nil value for a valid index")
+        XCTAssertNotNil(result,
+                        "Safe subscripting returned nil")
     }
 
     func testSafeSubscriptWithIndexGreaterThanCount() {
@@ -20,7 +21,8 @@ final class CollectionTests: XCTestCase {
 
         let result = collection[safe: index]
 
-        XCTAssertNil(result, "safe subscripting should return nil value for an invalid index")
+        XCTAssertNil(result,
+                     "Safe subscripting didn't return nil: \(result!)")
     }
 
     func testSafeSubscriptWithNegativeIndex() {
@@ -29,19 +31,40 @@ final class CollectionTests: XCTestCase {
 
         let result = collection[safe: index]
 
-        XCTAssertNil(result, "safe subscripting should return nil value for an invalid index")
+        XCTAssertNil(result,
+                     "Safe subscripting didn't return nil: \(result!)")
     }
 
     // MARK: - Uniques Tests
 
     func testUniques() {
         let collection = [1, 2, 1, 3, 4, 2, 4, 4, 5, 5, 6]
-        let uniques = collection.uniques
+        let uniques = collection.uniques()
         let expected = [1, 2, 3, 4, 5, 6]
 
         let result = uniques.elementsEqual(expected)
 
-        XCTAssertTrue(result, "uniques should return the collection's elements with no duplicates and in the same order")
+        XCTAssertTrue(result,
+                      "unqiues() returned duplicate elements or elements out of order: \(result)")
+    }
+
+    // MARK: - Zip Tests
+
+    func testZip() {
+        let a = (1...3).map { "A\($0)" }
+        let b = (1...2).map { "B\($0)" }
+        let c = (1...4).map { "C\($0)" }
+        let expected = [
+            ["A1", "B1", "C1"],
+            ["A2", "B2", "C2"],
+            ["A3", "C3"],
+            ["C4"]
+        ]
+
+        let result = [a, b, c].zipped()
+
+        XCTAssertEqual(result, expected,
+                       "zipped() didn't zip it's elements properly: \(result)")
     }
 
     // MARK: - All Tests
@@ -50,6 +73,7 @@ final class CollectionTests: XCTestCase {
         ("testSafeSubscript", testSafeSubscript),
         ("testSafeSubscriptWithIndexGreaterThanCount", testSafeSubscriptWithIndexGreaterThanCount),
         ("testSafeSubscriptWithNegativeIndex", testSafeSubscriptWithNegativeIndex),
-        ("testUniques", testUniques)
+        ("testUniques", testUniques),
+        ("testZip", testZip)
     ]
 }

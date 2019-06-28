@@ -24,7 +24,7 @@ public extension Collection {
 public extension Collection where Element: Hashable {
     // MARK: - Uniques
 
-    /// The unique elements of this collection maintaining their order.
+    /// Returns the unique elements of this collection maintaining their order.
     ///
     /// The following example accesses the unique elements of the collection
     ///
@@ -32,8 +32,9 @@ public extension Collection where Element: Hashable {
     ///     print(streets.uniques)
     ///     // Prints "Adams, Bryant, Channing, Douglas, Evarts"
     ///
+    /// - Returns: A new collection with unique elements maintaining their order from `self`
     /// - Complexity: O(*m*) where *m* is the length of the collection
-    var uniques: [Element] {
+    func uniques() -> [Element] {
         var dict: [Element: Bool] = [:]
         return filter { dict.updateValue(true, forKey: $0) == nil }
     }

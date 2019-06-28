@@ -5,48 +5,51 @@ final class ComparableTests: XCTestCase {
 
     // MARK: - Clamping Tests
 
-    func testClamped() {
-        let value = 3
-        let range = (0...10)
-
-        let result = value.clamped(to: range) == value
-
-        XCTAssertTrue(result, "clamped should return the caller value when it is within the bounds")
-    }
-
     func testClamp() {
         var value = -1
         let range = (0...10)
 
         value.clamp(to: range)
-        let result = value == range.lowerBound
 
-        XCTAssertTrue(result, "clamp should mutate the value to the lower bound when the value is less than the lower bound")
+        XCTAssertEqual(value, range.lowerBound,
+                       "clamp() didn't mutate the caller within to be within the bounds: \(value)")
+    }
+
+    func testClamped() {
+        let value = 3
+        let range = (0...10)
+
+        let result = value.clamped(to: range)
+
+        XCTAssertEqual(result, value,
+                       "clamped() didn't return the correct value: \(result)")
     }
 
     func testClampedToLowerBound() {
         let value = -1
         let range = (0...10)
 
-        let result = value.clamped(to: range) == range.lowerBound
+        let result = value.clamped(to: range)
 
-        XCTAssertTrue(result, "clamped should return a value the lower bound when the value is less than the lower bound")
+        XCTAssertEqual(result, range.lowerBound,
+                       "clamped() didn't return a value within the bounds: \(result)")
     }
 
     func testClampedToUpperBound() {
         let value = 11
         let range = (0...10)
 
-        let result = value.clamped(to: range) == range.upperBound
+        let result = value.clamped(to: range)
 
-        XCTAssertTrue(result, "clamped should return a value the upper bound when the value is greater than the upper bound")
+        XCTAssertEqual(result, range.upperBound,
+                       "clamped() didn't return a value within the bounds: \(result)")
     }
 
     // MARK: - All Tests
 
     static var allTests = [
-        ("testClamped", testClamped),
         ("testClamp", testClamp),
+        ("testClamped", testClamped),
         ("testClampedToLowerBound", testClampedToLowerBound),
         ("testClampedToUpperBound", testClampedToUpperBound)
     ]
